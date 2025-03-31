@@ -19,7 +19,7 @@ const home = async (req, res) => {
 
 const registerUser = async (req, res) => {
   try {
-    res.status(200).send("register");
+    res.status(200).send("register using controllers");
   } catch (error) {
     res.status(400).send("page not found");
   }
