@@ -1,5 +1,5 @@
 // xeamdesigner7
-// rHL7ymfw9pKlAPHY                                                   
+// rHL7ymfw9pKlAPHY
 const mongoose = require("mongoose");
 
 const connectDb = async () => {
