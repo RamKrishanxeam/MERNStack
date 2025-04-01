@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 5000;
 // JSON फॉर्मेट में डेटा भेजता है, तो यह मिडलवेयर उसे पार्स करके req.body में उपलब्ध कराता है।
 app.use(express.json());
 require("dotenv").config();
-
 app.use("/api/auth", router);
 
 connectDb().then(() => {
