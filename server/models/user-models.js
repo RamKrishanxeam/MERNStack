@@ -2,7 +2,7 @@
 //  पासवर्ड (password), और तारीख (date) जैसी जानकारी होगी।
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -70,6 +70,10 @@ userSchema.methods.generateToken = async function () {
     console.error(error);
   }
 };
+
+// login
+
+
 
 // define the model or the collection name
 const User = new mongoose.model("User", userSchema);
