@@ -48,7 +48,10 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
-
+userSchema.methods.comparePassword = async function (password) {
+  const user = this;
+  return bcrypt.compare(password, user.password);
+};
 // JWT (JSON Web Token) क्या है?
 // JWT (JSON Web Token) एक डिजिटलली साइन किया हुआ टोकन है जो क्लाइंट और सर्वर के बीच डेटा सुरक्षित रूप से
 //  भेजने के लिए इस्तेमाल किया जाता है। इसे मुख्य रूप से ऑथेंटिकेशन (लॉगिन सिस्टम) और डेटा एक्सचेंज के लिए उपयोग किया जाता है।
@@ -72,8 +75,6 @@ userSchema.methods.generateToken = async function () {
 };
 
 // login
-
-
 
 // define the model or the collection name
 const User = new mongoose.model("User", userSchema);
