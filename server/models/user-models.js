@@ -2,6 +2,7 @@
 //  पासवर्ड (password), और तारीख (date) जैसी जानकारी होगी।
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+var jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -47,6 +48,28 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
+
+// JWT (JSON Web Token) क्या है?
+// JWT (JSON Web Token) एक डिजिटलली साइन किया हुआ टोकन है जो क्लाइंट और सर्वर के बीच डेटा सुरक्षित रूप से
+//  भेजने के लिए इस्तेमाल किया जाता है। इसे मुख्य रूप से ऑथेंटिकेशन (लॉगिन सिस्टम) और डेटा एक्सचेंज के लिए उपयोग किया जाता है।
+
+userSchema.methods.generateToken = async function () {
+  try {
+    return jwt.sign(
+      {
+        userId: this._id.toString(),
+        email: this.email,
+        isAdmin: this.isAdmin,
+      },
+      process.env.JWT_SECRECT_KEY,
+      {
+        expiresIn: "30d",
+      }
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // define the model or the collection name
 const User = new mongoose.model("User", userSchema);

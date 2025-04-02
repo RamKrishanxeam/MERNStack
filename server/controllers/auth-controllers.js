@@ -33,7 +33,12 @@ const registerUser = async (req, res) => {
       phone,
       password,
     });
-    res.status(201).send({ message: "Registration successfull", userCreated });
+    res.status(201).send({
+      // user: userCreated,
+      token: await userCreated.generateToken(),
+      userId: userCreated._id.toString(),
+      message: "Your account has been created successfully.",
+    });
   } catch (error) {
     res.status(500).send("internal server error");
   }
