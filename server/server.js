@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const router = require("./router/auth-router");
 const connectDb = require("./utils/db");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; 
 
 // app.use(express.json());  इस लाइन का उपयोग Express.js में JSON
 // डेटा को पार्स करने के लिए किया जाता है। जब कोई क्लाइंट (जैसे React, Postman, या कोई अन्य API उपभोक्ता)

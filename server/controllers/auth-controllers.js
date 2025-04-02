@@ -1,6 +1,6 @@
 // Controllers Express.js में MVC (Model-View-Controller) आर्किटेक्चर का एक महत्वपूर्ण हिस्सा होते हैं।
 // ये बिजनेस लॉजिक को हैंडल करते हैं और क्लाइंट से आने वाले रिक्वेस्ट (Request) और रिस्पॉन्स (Response) को मैनेज करते हैं।
-
+const User = require("../models/user-models");
 // बिजनेस लॉजिक वह नियम और प्रोसेस होते हैं, जो यह तय करते हैं कि डेटा को कैसे प्रोसेस और मैनेज किया जाए। उदाहरण के लिए:
 // यूज़र रजिस्ट्रेशन पर ईमेल वेरिफिकेशन भेजना।
 // यूज़र लॉगिन पर पासवर्ड वेरिफिकेशन और टोकन जनरेशन।
@@ -20,9 +20,23 @@ const home = async (req, res) => {
 const registerUser = async (req, res) => {
   try {
     console.log(req.body);
-    res.status(200).send({ message: req.body });
+    const { username, email, phone, password } = req.body;
+    // 1️⃣ Check if the user already exists
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      return res.status(400).send({ message: "Email already exists" });
+    }
+
+
+    const userCreated = await User.create({
+      username,
+      email,
+      phone,
+      password,
+    });
+    res.status(200).send({ message: "Registration successfull", userCreated });
   } catch (error) {
-    res.status(400).send("page not found");
+    res.status(500).send("internal server error");
   }
 };
 
