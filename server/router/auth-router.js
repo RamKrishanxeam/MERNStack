@@ -4,14 +4,14 @@
 const express = require("express");
 const authcontrollers = require("../controllers/auth-controllers");
 const validate = require("../middleware/validation-middleware");
-const signupSchema = require("../validators/user-validator");
+const { signupSchema, loginSchema } = require("../validators/user-validator");
 const router = express.Router();
 
 router.route("/").get(authcontrollers.home);
 router
   .route("/register")
   .post(validate(signupSchema), authcontrollers.registerUser);
-router.route("/login").post(authcontrollers.loginUser);
+router.route("/login").post(validate(loginSchema), authcontrollers.loginUser);
 
 // router.route("/register").get((req, res) => {
 //   res.status(200).send("register");
