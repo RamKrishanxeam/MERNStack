@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const router = require("./router/auth-router");
+const authRouter = require("./router/auth-router");
+const contactRoute = require("./router/contact-router");
 const connectDb = require("./utils/db");
 const errorMiddleware = require("./middleware/error-middleware");
 
@@ -11,7 +12,8 @@ const errorMiddleware = require("./middleware/error-middleware");
 // इस require("dotenv").config(); लाइन का उपयोग Node.js में .env फ़ाइल से पर्यावरण चर (environment variables) लोड करने के लिए किया जाता है।
 
 app.use(express.json());
-app.use("/api/auth", router);
+app.use("/api/auth", authRouter);
+app.use("/api/form", contactRoute);
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 5000;
 
