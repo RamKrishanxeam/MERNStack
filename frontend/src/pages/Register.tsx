@@ -37,14 +37,7 @@ const Register = () => {
                     console.log(values);
                   }}
                 >
-                  {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                  }) => (
+                  {({ values, handleChange, handleBlur, handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
                       <div>
                         <label htmlFor="username">username</label>
