@@ -10,7 +10,7 @@ interface FormValues {
 }
 
 const Register = () => {
-  const navigate = useNavigate();
+  const naiviagte = useNavigate();
   const userResister = ({ values }: any) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -31,7 +31,7 @@ const Register = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {
-          navigate("/login");
+          naiviagte("/login");
         }
       })
       .catch((error) => console.error(error));

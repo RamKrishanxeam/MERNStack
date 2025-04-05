@@ -37,6 +37,7 @@ const Login = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {
+          localStorage.setItem("token", result.token);
           navigate("/");
           setUser({
             email: "",
