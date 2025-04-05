@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import Layouts from "../layouts/Layouts";
+import { useNavigate } from "react-router-dom";
 
 interface FormValues {
   username: string;
@@ -9,6 +10,32 @@ interface FormValues {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
+  const userResister = ({ values }: any) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify({
+      username: values.username,
+      email: values.email,
+      phone: String(values.phone),
+      password: values.password,
+    });
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch("http://localhost:5000/api/auth/register", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.userId) {
+          navigate("/login");
+        }
+      })
+      .catch((error) => console.error(error));
+  };
   return (
     <Layouts>
       <section>
@@ -17,7 +44,7 @@ const Register = () => {
             <div className="container grid grid-two-cols">
               <div className="registration-image reg-img">
                 <img
-                  src="/images/register.png"
+                  src="https://img.freepik.com/premium-vector/global-data-security-concept-illustration_86047-604.jpg?w=826"
                   alt="a nurse with a cute look"
                   width="400"
                   height="500"
@@ -34,7 +61,7 @@ const Register = () => {
                     password: "",
                   }}
                   onSubmit={(values) => {
-                    console.log(values);
+                    userResister({ values });
                   }}
                 >
                   {({ values, handleChange, handleBlur, handleSubmit }) => (

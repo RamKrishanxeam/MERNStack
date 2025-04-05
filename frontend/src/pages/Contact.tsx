@@ -39,7 +39,7 @@ export const Contact = () => {
           <div className="container grid grid-two-cols">
             <div className="contact-img">
               <img
-                src="/images/support.png"
+                src="https://img.freepik.com/premium-vector/global-data-security-concept-illustration_86047-604.jpg?w=826"
                 alt="we are always ready to help"
               />
             </div>
@@ -82,8 +82,6 @@ export const Contact = () => {
                     value={contact.message}
                     onChange={handleInput}
                     required
-                    cols="30"
-                    rows="6"
                   ></textarea>
                 </div>
 

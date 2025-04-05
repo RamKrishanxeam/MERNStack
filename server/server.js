@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const authRouter = require("./router/auth-router");
 const contactRoute = require("./router/contact-router");
@@ -16,6 +17,12 @@ app.use("/api/auth", authRouter);
 app.use("/api/form", contactRoute);
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 5000;
+const crosOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET,POST,PUT,DELETE,PATCH,HEAD",
+  credentials: true,
+};
+app.use(cors(crosOptions));
 
 connectDb().then(() => {
   app.listen(PORT, () => {

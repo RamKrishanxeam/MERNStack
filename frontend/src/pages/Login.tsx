@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Layouts from "../layouts/Layouts";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -18,7 +20,31 @@ const Login = () => {
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(user, "handleSubmit");
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify({
+      email: user.email,
+      password: user.password,
+    });
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch("http://localhost:5000/api/auth/login", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.userId) {
+          navigate("/");
+          setUser({
+            email: "",
+            password: "",
+          });
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -29,7 +55,7 @@ const Login = () => {
             <div className="container grid grid-two-cols">
               <div className="registration-image reg-img">
                 <img
-                  src="/images/register.png"
+                  src="https://img.freepik.com/premium-vector/global-data-security-concept-illustration_86047-604.jpg?w=826"
                   alt="a nurse with a cute look"
                   width="400"
                   height="500"
