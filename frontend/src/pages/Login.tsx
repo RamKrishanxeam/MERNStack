@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Layouts from "../layouts/Layouts";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../store/auth";
+import { BaseUrl } from "../store/BaseUrl";
 
 const Login = () => {
   const navigate = useNavigate();
+  const authValue = useContext(AuthContext);
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -33,11 +37,11 @@ const Login = () => {
       body: raw,
     };
 
-    fetch("http://localhost:5000/api/auth/login", requestOptions)
+    fetch(`${BaseUrl}/login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {
-          localStorage.setItem("token", result.token);
+          authValue?.storeTokenInLS(result.token);
           navigate("/");
           setUser({
             email: "",

@@ -1,6 +1,9 @@
 import { Formik } from "formik";
 import Layouts from "../layouts/Layouts";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../store/auth";
+import { BaseUrl } from "../store/BaseUrl";
 
 interface FormValues {
   username: string;
@@ -11,6 +14,8 @@ interface FormValues {
 
 const Register = () => {
   const naiviagte = useNavigate();
+  const authValue = useContext(AuthContext);
+
   const userResister = ({ values }: any) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -27,10 +32,11 @@ const Register = () => {
       body: raw,
     };
 
-    fetch("http://localhost:5000/api/auth/register", requestOptions)
+    fetch(`${BaseUrl}/register`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {
+          authValue?.storeTokenInLS(result.token);
           naiviagte("/login");
         }
       })
