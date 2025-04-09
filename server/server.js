@@ -4,6 +4,8 @@ const cors = require("cors");
 const app = express();
 const authRouter = require("./router/auth-router");
 const contactRoute = require("./router/contact-router");
+const serviceRoute = require("./router/service-router");
+
 const connectDb = require("./utils/db");
 const errorMiddleware = require("./middleware/error-middleware");
 
@@ -15,6 +17,7 @@ const errorMiddleware = require("./middleware/error-middleware");
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/form", contactRoute);
+app.use("/api/data", serviceRoute);
 app.use(errorMiddleware);
 const PORT = process.env.PORT || 5000;
 const crosOptions = {
