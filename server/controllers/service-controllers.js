@@ -19,7 +19,7 @@ const getService = async (req, res) => {
     if (!response) {
       return res.status(401).json({ message: "No service found" });
     }
-    return res.status(200).json({ message: response });
+    return res.status(200).json({ response });
   } catch (error) {
     console.log(`services ${error}`);
   }

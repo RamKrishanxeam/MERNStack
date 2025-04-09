@@ -7,11 +7,13 @@ interface AuthType {
   isLoggedIn: boolean;
   storeTokenInLS: (serverToken: string) => void;
   LogoutUser: () => void;
-  user: object;
+  user: Object;
+  serviceData: Object;
 }
 export const AuthProvider = ({ children }: any) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState<String>("");
+  const [user, setUser] = useState("");
+  const [serviceData, setServiceData] = useState([]);
   const storeTokenInLS = (serverToken: string) => {
     return localStorage.setItem("token", serverToken);
   };
@@ -39,9 +41,21 @@ export const AuthProvider = ({ children }: any) => {
       .catch((error) => console.error(error));
   }, []);
 
+  useEffect(() => {
+    const requestOptions: RequestInit = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(`${BaseUrl}/data/service`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setServiceData(result.response))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ storeTokenInLS, LogoutUser, isLoggedIn, user }}
+      value={{ storeTokenInLS, LogoutUser, isLoggedIn, user, serviceData }}
     >
       {children}
     </AuthContext.Provider>
