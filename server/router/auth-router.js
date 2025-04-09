@@ -4,6 +4,7 @@
 const express = require("express");
 const authcontrollers = require("../controllers/auth-controllers");
 const validate = require("../middleware/validation-middleware");
+const authMiddleware = require("../middleware/auth-middleware");
 const { signupSchema, loginSchema } = require("../validators/user-validator");
 const router = express.Router();
 
@@ -12,9 +13,6 @@ router
   .route("/register")
   .post(validate(signupSchema), authcontrollers.registerUser);
 router.route("/login").post(validate(loginSchema), authcontrollers.loginUser);
-
-// router.route("/register").get((req, res) => {
-//   res.status(200).send("register");
-// });
+router.route("/user").get(authMiddleware, authcontrollers.user);
 
 module.exports = router;
