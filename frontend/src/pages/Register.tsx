@@ -32,7 +32,7 @@ const Register = () => {
       body: raw,
     };
 
-    fetch(`${BaseUrl}/register`, requestOptions)
+    fetch(`${BaseUrl}/auth/register`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {

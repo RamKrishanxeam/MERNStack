@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
 const user = (req, res) => {
   try {
     const userData = req.user;
-    res.status(200).json({ message: userData });
+    res.status(200).json({ userData });
   } catch (error) {
     console.log("error from this user", error);
   }

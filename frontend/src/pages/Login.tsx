@@ -37,7 +37,7 @@ const Login = () => {
       body: raw,
     };
 
-    fetch(`${BaseUrl}/login`, requestOptions)
+    fetch(`${BaseUrl}/auth/login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {

@@ -1,32 +1,65 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Layouts from "../layouts/Layouts";
+import { AuthContext } from "../store/auth";
+import { BaseUrl } from "../store/BaseUrl";
 
 export const Contact = () => {
+  const { user }: any = useContext(AuthContext);
+  const [userData, setuserData] = useState(true);
   const [contact, setContact] = useState({
     username: "",
     email: "",
     message: "",
   });
+  useEffect(() => {
+    if (userData && user) {
+      setContact({
+        username: user.name || "",
+        email: user.email || "",
+        message: "",
+      });
+      setuserData(false);
+    }
+  }, [user]);
 
-  // lets tackle our handleInput
-  const handleInput = (e: any) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
+  const handleInput = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setContact({
       ...contact,
-      [name]: value,
+      [e.target.name]: e.target.value,
     });
   };
 
-  // handle fomr getFormSubmissionInfo
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-    console.log(contact);
+    const raw = JSON.stringify({
+      username: user.username,
+      email: user.email,
+      message: contact.message,
+    });
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch(`${BaseUrl}/form/contact`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setContact({
+          username: "",
+          email: "",
+          message: "",
+        });
+      })
+      .catch((error) => console.error(error));
   };
-
-  //  Help me reach 1 Million subs 👉 https://youtube.com/thapatechnical
 
   return (
     <>
@@ -54,7 +87,7 @@ export const Contact = () => {
                     name="username"
                     id="username"
                     autoComplete="off"
-                    value={contact.username}
+                    value={user?.username || ""}
                     onChange={handleInput}
                     required
                   />
@@ -67,7 +100,7 @@ export const Contact = () => {
                     name="email"
                     id="email"
                     autoComplete="off"
-                    value={contact.email}
+                    value={user?.email || ""}
                     onChange={handleInput}
                     required
                   />
