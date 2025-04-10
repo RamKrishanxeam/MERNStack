@@ -38,6 +38,8 @@ const Register = () => {
         if (result.userId) {
           authValue?.storeTokenInLS(result.token);
           naiviagte("/login");
+        } else {
+          alert(result.extraDetails ? result.extraDetails : result.message);
         }
       })
       .catch((error) => console.error(error));

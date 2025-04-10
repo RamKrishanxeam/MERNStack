@@ -47,6 +47,8 @@ const Login = () => {
             email: "",
             password: "",
           });
+        } else {
+          alert(result.extraDetails ? result.extraDetails : result.message);
         }
       })
       .catch((error) => console.error(error));
