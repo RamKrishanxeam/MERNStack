@@ -8,21 +8,20 @@ const Service = () => {
   return (
     <Layouts>
       <div className="service-section">
-        <div className="card">
-          {serviceData
-            ? serviceData.map((item: any, index: any) => {
-                return (
+        {serviceData
+          ? serviceData.map((item: any, index: any) => {
+              return (
+                <div className="card">
                   <div className="card-content" key={index}>
-                    <h2>Beautiful Landscape</h2>
-                    <p>
-                      Explore the beauty of nature with amazing landscapes and
-                      scenic views.
-                    </p>
+                    <h2>{item.service}</h2>
+                    <p>{item.provider}</p>
+                    <p>{item.price}</p>
+                    <p>{item.description}</p>
                   </div>
-                );
-              })
-            : "N/A"}
-        </div>
+                </div>
+              );
+            })
+          : "N/A"}
       </div>
     </Layouts>
   );
