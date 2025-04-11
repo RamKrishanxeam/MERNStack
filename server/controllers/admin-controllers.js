@@ -1,5 +1,5 @@
 const User = require("../models/user-models");
-
+const Contact = require("../models/contact-models");
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select({
@@ -14,4 +14,17 @@ const getAllUsers = async (req, res) => {
     console.log(`user ${error}`);
   }
 };
-module.exports = getAllUsers;
+
+const getAllContact = async (req, res) => {
+  try {
+    const contact = await Contact.find();
+
+    if (!contact) {
+      return res.status(401).json({ message: "No contact found" });
+    }
+    return res.status(200).json({ contact });
+  } catch (error) {
+    console.log(`contact ${error}`);
+  }
+};
+module.exports = { getAllUsers, getAllContact };
