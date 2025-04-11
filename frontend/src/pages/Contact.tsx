@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Layouts from "../layouts/Layouts";
 import { AuthContext } from "../store/auth";
 import { BaseUrl } from "../store/BaseUrl";
+import { toast } from "react-toastify";
 
 export const Contact = () => {
   const { user }: any = useContext(AuthContext);
@@ -57,8 +58,12 @@ export const Contact = () => {
           email: "",
           message: "",
         });
+        toast.success("message send successfull");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        toast.error(error);
+      });
   };
 
   return (

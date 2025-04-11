@@ -39,7 +39,7 @@ const Register = () => {
         if (result.userId) {
           toast.success("Register successful");
           authValue?.storeTokenInLS(result.token);
-          naiviagte("/login");
+          naiviagte("/");
         } else {
           toast.error(
             result.extraDetails ? result.extraDetails : result.message
