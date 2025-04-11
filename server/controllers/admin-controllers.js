@@ -7,7 +7,7 @@ const getAllUsers = async (req, res) => {
     });
 
     if (!users || users.length === 0) {
-      return res.status(401).json({ message: "No users found" });
+      return res.status(404).json({ message: "No users found" });
     }
     return res.status(200).json({ users });
   } catch (error) {
@@ -19,8 +19,8 @@ const getAllContact = async (req, res) => {
   try {
     const contact = await Contact.find();
 
-    if (!contact) {
-      return res.status(401).json({ message: "No contact found" });
+    if (!contact || contact.length === 0) {
+      return res.status(404).json({ message: "No contact found" });
     }
     return res.status(200).json({ contact });
   } catch (error) {
