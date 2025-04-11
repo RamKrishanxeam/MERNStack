@@ -9,15 +9,20 @@ interface AuthType {
   LogoutUser: () => void;
   user: Object;
   serviceData: Object;
+  users: Object;
 }
 export const AuthProvider = ({ children }: any) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
+  const [users, setUsers] = useState([]);
+
   const [serviceData, setServiceData] = useState([]);
   const storeTokenInLS = (serverToken: string) => {
     setToken(serverToken);
     return localStorage.setItem("token", serverToken);
   };
+
+  const AuthorizationToken = `Bearer ${token}`;
   const isLoggedIn = !!token;
   const LogoutUser = () => {
     if (token) {
@@ -28,7 +33,7 @@ export const AuthProvider = ({ children }: any) => {
 
   useEffect(() => {
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Authorization", AuthorizationToken);
 
     const requestOptions: RequestInit = {
       method: "GET",
@@ -54,9 +59,32 @@ export const AuthProvider = ({ children }: any) => {
       .catch((error) => console.error(error));
   }, []);
 
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", AuthorizationToken);
+
+    const requestOptions: RequestInit = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${BaseUrl}/admin/users`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setUsers(result.users))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ storeTokenInLS, LogoutUser, isLoggedIn, user, serviceData }}
+      value={{
+        storeTokenInLS,
+        LogoutUser,
+        isLoggedIn,
+        user,
+        serviceData,
+        users,
+      }}
     >
       {children}
     </AuthContext.Provider>
