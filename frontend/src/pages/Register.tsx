@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../store/auth";
 import { BaseUrl } from "../store/BaseUrl";
+import { toast } from "react-toastify";
 
 interface FormValues {
   username: string;
@@ -36,10 +37,13 @@ const Register = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.userId) {
+          toast.success("Register successful");
           authValue?.storeTokenInLS(result.token);
           naiviagte("/login");
         } else {
-          alert(result.extraDetails ? result.extraDetails : result.message);
+          toast.error(
+            result.extraDetails ? result.extraDetails : result.message
+          );
         }
       })
       .catch((error) => console.error(error));

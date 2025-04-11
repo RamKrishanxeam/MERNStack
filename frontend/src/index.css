@@ -357,3 +357,7 @@ button {
 .card button:hover {
   background-color: #0056b3;
 }
+
+.toastBody {
+  font-size: 1.7rem;
+}

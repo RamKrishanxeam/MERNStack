@@ -3,6 +3,7 @@ import Layouts from "../layouts/Layouts";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../store/auth";
 import { BaseUrl } from "../store/BaseUrl";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,13 +43,16 @@ const Login = () => {
       .then((result) => {
         if (result.userId) {
           authValue?.storeTokenInLS(result.token);
+          toast.success("Login successful");
           navigate("/");
           setUser({
             email: "",
             password: "",
           });
         } else {
-          alert(result.extraDetails ? result.extraDetails : result.message);
+          toast.error(
+            result.extraDetails ? result.extraDetails : result.message
+          );
         }
       })
       .catch((error) => console.error(error));
