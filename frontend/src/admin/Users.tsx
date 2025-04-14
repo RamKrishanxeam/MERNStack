@@ -14,6 +14,8 @@ const Users = () => {
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Update</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -22,6 +24,8 @@ const Users = () => {
               <td>{index + 1}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
+              <td>Edit</td>
+              <td>Delete</td>
             </tr>
           ))}
         </tbody>
