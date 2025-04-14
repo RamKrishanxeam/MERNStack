@@ -2,8 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../store/auth";
 
 const Users = () => {
-  const { users }: any = useContext(AuthContext);
-  console.log(users, "users");
+  const { users, deleteUserById }: any = useContext(AuthContext);
 
   return (
     <div className="users-container">
@@ -19,13 +18,13 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user: any, index: any) => (
+          {users?.map((user: any, index: any) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>Edit</td>
-              <td>Delete</td>
+              <td onClick={() => deleteUserById(user._id)}> Delete</td>
             </tr>
           ))}
         </tbody>

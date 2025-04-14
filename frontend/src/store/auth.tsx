@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { BaseUrl } from "./BaseUrl";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext<AuthType | null>(null);
 
@@ -10,6 +11,7 @@ interface AuthType {
   user: Object;
   serviceData: Object;
   users: Object;
+  deleteUserById: (id: string) => void;
 }
 export const AuthProvider = ({ children }: any) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -43,7 +45,9 @@ export const AuthProvider = ({ children }: any) => {
 
     fetch(`${BaseUrl}/auth/user`, requestOptions)
       .then((response) => response.json())
-      .then((result) => setUser(result.userData))
+      .then((result) => {
+        setUser(result.userData);
+      })
       .catch((error) => console.error(error));
   }, []);
 
@@ -59,7 +63,7 @@ export const AuthProvider = ({ children }: any) => {
       .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
+  const allUserData = () => {
     const myHeaders = new Headers();
     myHeaders.append("Authorization", AuthorizationToken);
 
@@ -73,7 +77,30 @@ export const AuthProvider = ({ children }: any) => {
       .then((response) => response.json())
       .then((result) => setUsers(result.users))
       .catch((error) => console.error(error));
+  };
+  useEffect(() => {
+    allUserData();
   }, []);
+
+  const deleteUserById = (id: any) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", AuthorizationToken);
+
+    const requestOptions: RequestInit = {
+      method: "DELETE",
+      headers: myHeaders,
+    };
+
+    fetch(`${BaseUrl}/admin/delete/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result) {
+          toast.success(result.message);
+          allUserData();
+        }
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <AuthContext.Provider
@@ -84,6 +111,7 @@ export const AuthProvider = ({ children }: any) => {
         user,
         serviceData,
         users,
+        deleteUserById,
       }}
     >
       {children}

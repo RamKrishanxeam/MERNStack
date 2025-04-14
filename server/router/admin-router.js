@@ -8,5 +8,8 @@ router
   .route("/users")
   .get(authMiddleware, adminMiddleware, adminControllers.getAllUsers);
 router.route("/contact").get(adminControllers.getAllContact);
+router
+  .route("/delete/:id")
+  .delete(authMiddleware, adminMiddleware, adminControllers.deleteUserById);
 
 module.exports = router;

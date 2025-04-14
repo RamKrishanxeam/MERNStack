@@ -24,7 +24,21 @@ const getAllContact = async (req, res) => {
     }
     return res.status(200).json({ contact });
   } catch (error) {
-    console.log(`contact ${error}`);
+    res.status(500).json({ message: "Error contact user", error });
   }
 };
-module.exports = { getAllUsers, getAllContact };
+
+const deleteUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await User.deleteOne({ _id: id });
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user", error });
+  }
+};
+
+module.exports = { getAllUsers, getAllContact, deleteUserById };
