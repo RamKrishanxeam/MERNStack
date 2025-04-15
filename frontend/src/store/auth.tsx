@@ -8,14 +8,23 @@ interface AuthType {
   isLoggedIn: boolean;
   storeTokenInLS: (serverToken: string) => void;
   LogoutUser: () => void;
-  user: Object;
-  serviceData: Object;
-  users: Object;
+  user: User | null;
+  serviceData: Record<string, any>;
+  users: User[];
   deleteUserById: (id: string) => void;
+  allUserData: () => void;
 }
+type User = {
+  _id: string;
+  username: string;
+  email: string;
+  phone: string;
+  isAdmin: string;
+};
+
 export const AuthProvider = ({ children }: any) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState<User | null>(null);
   const [users, setUsers] = useState([]);
 
   const [serviceData, setServiceData] = useState([]);
@@ -82,7 +91,7 @@ export const AuthProvider = ({ children }: any) => {
     allUserData();
   }, []);
 
-  const deleteUserById = (id: any) => {
+  const deleteUserById = () => {
     const myHeaders = new Headers();
     myHeaders.append("Authorization", AuthorizationToken);
 
@@ -91,7 +100,7 @@ export const AuthProvider = ({ children }: any) => {
       headers: myHeaders,
     };
 
-    fetch(`${BaseUrl}/admin/delete/${id}`, requestOptions)
+    fetch(`${BaseUrl}/admin/delete/${user?._id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result) {
@@ -112,6 +121,7 @@ export const AuthProvider = ({ children }: any) => {
         serviceData,
         users,
         deleteUserById,
+        allUserData,
       }}
     >
       {children}

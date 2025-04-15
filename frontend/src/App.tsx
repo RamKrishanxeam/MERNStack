@@ -10,6 +10,7 @@ import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
 import Users from "./admin/Users";
 import ContactAdmin from "./admin/Contact";
+import AdminUpdate from "./admin/Admin-update";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Users />} />
+          <Route path="users/edit/:id" element={<AdminUpdate />} />
           <Route path="contact" element={<ContactAdmin />} />
         </Route>
       </Routes>

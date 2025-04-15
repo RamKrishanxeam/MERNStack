@@ -25,7 +25,9 @@ const Users = () => {
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>
-                <Link to={`/admin/users/${user._id}/edit`}>Edit</Link>
+                <Link to={`/admin/users/edit/${user._id}`} state={{ user }}>
+                  Edit
+                </Link>
               </td>
               <td onClick={() => deleteUserById(user._id)}> Delete</td>
             </tr>
