@@ -64,8 +64,6 @@ const updateUserById = async (req, res) => {
         $set: updatedUserData,
       }
     );
-    console.log(updateUser, "updateUsersss");
-
     return res.status(200).json(updateUser);
   } catch (error) {
     res.status(500).json({ message: "Error update user", error });
