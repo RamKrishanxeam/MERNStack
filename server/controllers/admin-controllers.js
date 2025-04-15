@@ -54,4 +54,28 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getAllContact, deleteUserById, getUsersById };
+const updateUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
+    const updateUser = await User.updateOne(
+      { _id: id },
+      {
+        $set: updatedUserData,
+      }
+    );
+    console.log(updateUser, "updateUsersss");
+
+    return res.status(200).json(updateUser);
+  } catch (error) {
+    res.status(500).json({ message: "Error update user", error });
+  }
+};
+
+module.exports = {
+  getAllUsers,
+  getAllContact,
+  deleteUserById,
+  getUsersById,
+  updateUserById,
+};
