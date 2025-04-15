@@ -28,6 +28,19 @@ const getAllContact = async (req, res) => {
   }
 };
 
+const getUsersById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(404).json({ message: "UserID not found" });
+    }
+    const data = await User.findOne({ _id: id }).select({ password: 0 });
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Error UserID user", error });
+  }
+};
+
 const deleteUserById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -41,4 +54,4 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getAllContact, deleteUserById };
+module.exports = { getAllUsers, getAllContact, deleteUserById, getUsersById };

@@ -7,6 +7,11 @@ const router = express.Router();
 router
   .route("/users")
   .get(authMiddleware, adminMiddleware, adminControllers.getAllUsers);
+
+router
+  .route("/users/:id")
+  .get(authMiddleware, adminMiddleware, adminControllers.getUsersById);
+
 router.route("/contact").get(adminControllers.getAllContact);
 router
   .route("/delete/:id")

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../store/auth";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const { users, deleteUserById }: any = useContext(AuthContext);
@@ -23,7 +24,9 @@ const Users = () => {
               <td>{index + 1}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
-              <td>Edit</td>
+              <td>
+                <Link to={`/admin/users/${user._id}/edit`}>Edit</Link>
+              </td>
               <td onClick={() => deleteUserById(user._id)}> Delete</td>
             </tr>
           ))}
