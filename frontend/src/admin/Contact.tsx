@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 type Contact = {
-  _id(_id: any): void;
+  _id: string;
   username: string;
   email: string;
   message: string;
