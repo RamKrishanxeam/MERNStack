@@ -70,10 +70,24 @@ const updateUserById = async (req, res) => {
   }
 };
 
+const deleteContactById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+    await Contact.deleteOne({ _id: id });
+    res.json({ message: "Contact deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting contact", error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllContact,
   deleteUserById,
   getUsersById,
   updateUserById,
+  deleteContactById,
 };
